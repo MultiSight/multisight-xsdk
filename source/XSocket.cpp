@@ -796,6 +796,7 @@ ssize_t XSocket::_DoPollRecv( XDuration waitTime, int fd )
 
     fds[0].fd = fd;
     fds[0].events = POLLIN | POLLHUP | POLLERR | POLLNVAL | POLLRDHUP;
+    fds[0].revents = 0;
 
     int retVal = poll(fds, nfds, waitTime.Total(MSECS) );
 
@@ -819,6 +820,7 @@ ssize_t XSocket::_DoPollSend( XDuration waitTime, int fd )
 
     fds[0].fd = fd;
     fds[0].events = POLLOUT | POLLHUP;
+    fds[0].revents = 0;
 
     int retVal = poll(fds, nfds, waitTime.Total(MSECS) );
 

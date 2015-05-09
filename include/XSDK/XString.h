@@ -34,8 +34,6 @@
 ///call to the static method on the class.
 #define XSTRING_IS_SPACE(a) XString::IsSpace(a)
 
-
-
 namespace XSDK
 {
 

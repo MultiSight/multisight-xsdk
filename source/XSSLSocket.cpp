@@ -164,7 +164,10 @@ XSSLSocket::XSSLSocket( uint32_t defaultRecvBufferSize ) :
     SSL_CTX_set_options( _ctx, SSL_OP_NO_SSLv3 );
     SSL_CTX_set_default_passwd_cb( _ctx, _PrivateKeyPasswordCB );
     SSL_CTX_set_default_passwd_cb_userdata( _ctx, this );
-    SSL_CTX_set_cipher_list(_ctx, "HIGH:MEDIUM");
+    // Setting cipher list based on the AWS ELB 2015-05
+    // http://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/elb-security-policy-table.html
+    // Removing HIGH:MEDIUM because of logjam attack on DHE EDH
+    SSL_CTX_set_cipher_list(_ctx, "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:AES128-GCM-SHA256:AES128-SHA256:AES128-SHA:AES256-GCM-SHA384:AES256-SHA256:AES256-SHA:DES-CBC3-SHA");
     SSL_CTX_set_session_cache_mode(_ctx, SSL_SESS_CACHE_OFF);
     SSL_CTX_set_mode(_ctx, SSL_MODE_AUTO_RETRY);
     SSL_CTX_set_default_verify_paths( _ctx );

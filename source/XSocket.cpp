@@ -348,6 +348,8 @@ void XSocket::Close()
     int err = 0;
 
     _sok = 0;
+
+    // A memory barrier is used here to fully commit the change to all processor caches before continuing.
     FULL_MEM_BARRIER();
 
 #ifdef WIN32

@@ -172,6 +172,9 @@ XSSLSocket::XSSLSocket( uint32_t defaultRecvBufferSize ) :
     SSL_CTX_set_mode(_ctx, SSL_MODE_AUTO_RETRY);
     SSL_CTX_set_default_verify_paths( _ctx );
 
+    //const char * openSslVersion = SSLeay_version(SSLEAY_VERSION);
+    // if openSslVersion >= 1.0.2 set to use ECDHE
+    //SSL_CTX_set_ecdh_auto(_ctx, 1);
 }
 
 XSSLSocket::~XSSLSocket() throw()

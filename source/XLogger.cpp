@@ -213,6 +213,40 @@ void XLog::InstallLogLevelSigHandler()
 #endif
 }
 
+void xsdk_terminate()
+{
+    XLog::SetPrintToStdOutEnabled( true );
+
+    X_LOG_CRITICAL( "XSDK uncaught exception terminate handler called!" );
+
+    std::exception_ptr p = std::current_exception();
+
+    if( p )
+    {
+        try
+        {
+            std::rethrow_exception( p );
+        }
+        catch(XException& ex)
+        {
+            X_LOG_CRITICAL("%s",ex.what());
+            XLog::LogBacktrace(ex.GetStack());
+        }
+        catch(std::exception& ex)
+        {
+            X_LOG_CRITICAL("%s",ex.what());
+        }
+        catch(...)
+        {
+            X_LOG_CRITICAL("XSDK caught an unknown exception in custom terminate handler.");
+        }
+    }
+}
+
+void XLog::InstallTerminate()
+{
+    set_terminate( xsdk_terminate );
+}
 
 void XLog::LogBacktrace()
 {
@@ -220,7 +254,6 @@ void XLog::LogBacktrace()
     XStackTrace::GetStack(stack);
     LogBacktrace(stack);
 }
-
 
 void XLog::LogBacktrace(const std::vector<std::string>& stack)
 {

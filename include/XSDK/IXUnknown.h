@@ -193,8 +193,8 @@ class IXUnknown
 
         if( p.IsEmpty() )
         {
-            X_THROW_CRITICAL( ( "IXUnknown::GetInterface couldn't cast to the specified interface, actual:(%s).",
-                                typeid(this).name() ) );
+            X_THROW( ( "IXUnknown::GetInterface couldn't cast to the specified interface, actual:(%s).",
+                       typeid(this).name() ) );
         }
 
         return p;
@@ -233,8 +233,8 @@ class IXUnknown
 
         if( p.IsEmpty() )
         {
-            X_THROW_CRITICAL( ("IXUnknown::GetAs couldn't cast to the specified interface, actual:(%s).",
-                               typeid(this).name()) );
+            X_THROW( ("IXUnknown::GetAs couldn't cast to the specified interface, actual:(%s).",
+                      typeid(this).name()) );
         }
 
         return p;

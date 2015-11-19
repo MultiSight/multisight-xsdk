@@ -114,6 +114,7 @@ public:
     //Installs signal handlers for SIGUSR1 and SIGUSR2 to increase
     //and decrease the log level respectively.
     X_API static void InstallLogLevelSigHandler();
+    X_API static void InstallTerminate();
 
     X_API static void LogBacktrace();
     X_API static void LogBacktrace(const std::vector<std::string>& stackTrace);

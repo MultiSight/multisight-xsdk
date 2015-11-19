@@ -535,7 +535,7 @@ void XSocket::Connect(const XSDK::XString& host, int port, XDuration connectTime
     Create( XSocketAddress::GetAddressFamily(host) );
 
     if (!QueryConnect(host, port, connectTimeout))
-        X_STHROW( XSocketException, ( host, port, "Unable to connect to host." ));
+        X_STHROW( XConnectException, ("Unable to connect to %s:%d",host.c_str(),port));
 }
 
 bool XSocket::QueryConnect(const XSDK::XString& host, int port, XDuration connectTimeout)
@@ -560,10 +560,7 @@ bool XSocket::QueryConnect(const XSDK::XString& host, int port, XDuration connec
     err = ::connect( _sok, _addr.GetSockAddr(), _addr.SockAddrSize() );
 
     if( err < 0 )
-    {
-       X_LOG_WARNING("Failed to connect on socket in QueryConnect(%s, %d): %s",host.c_str(),port,GetLastErrorMsg().c_str());
         return false;
-    }
 
     return true;
 }
@@ -1117,3 +1114,22 @@ XSocketException::XSocketException(const XSDK::XString& ip, int port, const XSDK
       ip(ip),
       port(port)
 {}
+
+XConnectException::XConnectException() :
+    XException()
+{
+}
+
+XConnectException::XConnectException(const char* msg, ...) :
+    XException()
+{
+    va_list args;
+    va_start(args, msg);
+    SetMsg(XString::Format(msg, args));
+    va_end(args);
+}
+
+XConnectException::XConnectException(const XString& msg) :
+    XException(msg)
+{
+}

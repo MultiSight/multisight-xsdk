@@ -32,7 +32,7 @@
 X_MACRO_BEGIN \
     POINTER = (uint8_t*)_aligned_malloc( SIZE, ALIGNMENT ); \
     if( POINTER == 0 ) \
-        X_THROW_CRITICAL(("Failed to allocate an aligned buffer.")); \
+        X_THROW(("Failed to allocate an aligned buffer.")); \
 X_MACRO_END
 
 /// Frees an aligned buffer.
@@ -55,7 +55,7 @@ X_MACRO_BEGIN \
     if (__size & (sizeof(void*) - 1)) \
         __size = (__size & ~(sizeof(void*) - 1)) + sizeof(void*); \
     if( posix_memalign( (void**)&(POINTER), __alignment, __size ) != 0 ) \
-        X_THROW_CRITICAL(("Failed to allocate an aligned buffer.")); \
+        X_THROW(("Failed to allocate an aligned buffer.")); \
 X_MACRO_END
 
 /// Frees an aligned buffer.

@@ -77,10 +77,9 @@ public:
     X_API FileNotFoundException(const std::string& msg);
 };
 
-
 }
 
-/// Throws an XExepction and logs (at level WARNING) before throwing it.
+/// Throws an XExepction.
 #define X_THROW(PARAMS) \
 X_MACRO_BEGIN \
     XSDK::XException _exception PARAMS ; \
@@ -88,38 +87,6 @@ X_MACRO_BEGIN \
     std::vector<std::string> stack; \
     XSDK::XStackTrace::GetStack(stack); \
     _exception.SetStack(stack); \
-    X_LOG_WARNING("Exception thrown. Msg: \"%s\", At: %s(%d)\n", \
-            _exception.GetMsg(), \
-            __FILE__, \
-            __LINE__); \
-    XSDK::XLog::LogBacktrace(stack); \
-    throw _exception; \
-X_MACRO_END
-
-/// Throws an XException without logging
-#define X_THROW_NO_LOG(PARAMS)                                          \
-X_MACRO_BEGIN                                                           \
-    XSDK::XException _exception PARAMS ;                             \
-    _exception.SetThrowPoint(__LINE__, __FILE__);                    \
-    std::vector<std::string> stack;                                   \
-    XSDK::XStackTrace::GetStack(stack);                                 \
-    _exception.SetStack(stack);                                      \
-    throw _exception;                                                \
-X_MACRO_END
-
-/// Throws an XExepction and logs (at level CRITICAL) before throwing it.
-#define X_THROW_CRITICAL(PARAMS) \
-X_MACRO_BEGIN \
-    XSDK::XException _exception PARAMS ; \
-    _exception.SetThrowPoint(__LINE__, __FILE__); \
-    std::vector<std::string> stack; \
-    XSDK::XStackTrace::GetStack(stack); \
-    _exception.SetStack(stack); \
-    X_LOG_CRITICAL("Exception thrown. Msg: \"%s\", At: %s(%d)\n", \
-            _exception.GetMsg(), \
-            __FILE__, \
-            __LINE__); \
-    XSDK::XLog::LogBacktrace(stack); \
     throw _exception; \
 X_MACRO_END
 
@@ -137,25 +104,7 @@ X_MACRO_BEGIN \
     std::vector<std::string> stack; \
     XSDK::XStackTrace::GetStack(stack); \
     _exception.SetStack(stack); \
-    X_LOG_WARNING("%s thrown. Msg: \"%s\", At: %s(%d)\n", \
-            _exception.GetTypeName(), \
-            _exception.GetMsg(), \
-            __FILE__, \
-            __LINE__);\
-    XSDK::XLog::LogBacktrace(stack); \
     throw _exception; \
-X_MACRO_END
-
-/// Throw the given exception type without logging
-#define X_STHROW_NO_LOG(ETYPE, PARAMS)             \
-X_MACRO_BEGIN                                     \
-    ETYPE _exception PARAMS ;              \
-    _exception.SetThrowPoint(__LINE__, __FILE__); \
-    _exception.SetTypeName(ENQUOTE(ETYPE));           \
-    std::vector<std::string> stack; \
-    XSDK::XStackTrace::GetStack(stack); \
-    _exception.SetStack(stack); \
-    throw _exception;                             \
 X_MACRO_END
 
 /// A version of assert that logs when the assertion fails.

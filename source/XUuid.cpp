@@ -135,7 +135,7 @@ void XUuid::FromString( IN const XSDK::XString& str )
 {
     // This method only returns false if the string format is not valid.
     if (XUuidFromString(str.c_str(), &_uuid) == false)
-        X_THROW_NO_LOG(("Unable to convert from string."));
+        X_THROW(("Unable to convert from string."));
 }
 
 //=============================================================================

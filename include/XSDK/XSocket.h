@@ -320,7 +320,6 @@ private:
     XDuration _delayClose;
 };
 
-
 class XSocketException : public XException
 {
 public:
@@ -337,9 +336,17 @@ public:
 
     X_API XSocketException(const XSDK::XString& ip, int port, const XSDK::XString& msg);
 
-
     XString ip;
     int     port;
+};
+
+class XConnectException : public XException
+{
+public:
+    X_API XConnectException();
+    X_API XConnectException(const char* msg, ...);
+    X_API XConnectException(const XString& msg);
+    X_API virtual ~XConnectException() throw() {}
 };
 
 }

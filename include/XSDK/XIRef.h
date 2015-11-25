@@ -15,9 +15,9 @@
 //==============================================================================
 // Include files
 //==============================================================================
-#include <assert.h>
 #include <cstdlib>
 #include "XSDK/XGuard.h"
+#include "XSDK/Assert.h"
 
 template<class TPtr>
 class XIWeakRef;
@@ -326,7 +326,7 @@ public:
     TPtr& operator*()
     {
         // The object does not currently contain a raw pointer
-        assert(_ptr != NULL);
+        X_ASSERT(_ptr != NULL);
 
         // Report a reference to the object pointed to by our raw pointer
         return (*_ptr);
@@ -344,7 +344,7 @@ public:
     TPtr* operator->()
     {
         // The object does not currently contain a raw pointer
-        assert(_ptr != NULL);
+        X_ASSERT(_ptr != NULL);
 
         // Report the object's raw pointer value
         return (_ptr);
@@ -362,7 +362,7 @@ public:
     const TPtr* operator->() const
     {
         // The object does not currently contain a raw pointer
-        assert(_ptr != NULL);
+        X_ASSERT(_ptr != NULL);
 
         // Report the object's raw pointer value
         return (_ptr);

@@ -293,8 +293,8 @@ private:
 
 \code
 //Examples
-assert(XDuration(DAYS, 12) == XDuration(10368000000000LL));
-assert(XDuration(HNSECS, 27) == XDuration(27));
+X_ASSERT(XDuration(DAYS, 12) == XDuration(10368000000000LL));
+X_ASSERT(XDuration(HNSECS, 27) == XDuration(27));
 \endcode
  */
 class XDuration
@@ -444,19 +444,19 @@ public:
 
 \code
 //Examples
-assert(XDuration(WEEKS, 12).GetOnly(WEEKS) == 12);
-assert(XDuration(WEEKS, 12).GetOnly(DAYS) == 0);
+X_ASSERT(XDuration(WEEKS, 12).GetOnly(WEEKS) == 12);
+X_ASSERT(XDuration(WEEKS, 12).GetOnly(DAYS) == 0);
 
-assert(XDuration(DAYS, 13).GetOnly(WEEKS) == 1);
-assert(XDuration(DAYS, 13).GetOnly(DAYS) == 6);
+X_ASSERT(XDuration(DAYS, 13).GetOnly(WEEKS) == 1);
+X_ASSERT(XDuration(DAYS, 13).GetOnly(DAYS) == 6);
 
-assert(XDuration(HOURS, 49).GetOnly(DAYS) == 2);
-assert(XDuration(HOURS, 49).GetOnly(HOURS) == 1);
+X_ASSERT(XDuration(HOURS, 49).GetOnly(DAYS) == 2);
+X_ASSERT(XDuration(HOURS, 49).GetOnly(HOURS) == 1);
 
-assert(XDuration(HOURS, 25).GetOnly(HOURS) == 1);
-assert(XDuration(HOURS, 25).GetOnly(SECONDS) == 0);
+X_ASSERT(XDuration(HOURS, 25).GetOnly(HOURS) == 1);
+X_ASSERT(XDuration(HOURS, 25).GetOnly(SECONDS) == 0);
 
-assert(XDuration(MSECS, 1002).GetOnly(SECONDS) == 1);
+X_ASSERT(XDuration(MSECS, 1002).GetOnly(SECONDS) == 1);
 \endcode
       */
     X_API int64_t GetOnly(TimeUnits units) const
@@ -479,10 +479,10 @@ assert(XDuration(MSECS, 1002).GetOnly(SECONDS) == 1);
 
 \code
 //Examples
-assert(XDuration(MSECS, 1000).XFracSec() == XFracSec(MSECS, 0));
-assert(XDuration(MSECS, 1217).XFracSec() == XFracSec(MSECS, 217));
-assert(XDuration(USECS, 43).XFracSec() == XFracSec(USECS, 43));
-assert(XDuration(HNSECS, 50_007).XFracSec() == XFracSec(HNSECS, 50_007));
+X_ASSERT(XDuration(MSECS, 1000).XFracSec() == XFracSec(MSECS, 0));
+X_ASSERT(XDuration(MSECS, 1217).XFracSec() == XFracSec(MSECS, 217));
+X_ASSERT(XDuration(USECS, 43).XFracSec() == XFracSec(USECS, 43));
+X_ASSERT(XDuration(HNSECS, 50_007).XFracSec() == XFracSec(HNSECS, 50_007));
 \endcode
      */
     X_API XFracSec FracSec() const
@@ -499,23 +499,23 @@ assert(XDuration(HNSECS, 50_007).XFracSec() == XFracSec(HNSECS, 50_007));
 
 \code
 //Examples
-assert(XDuration(WEEKS, 12).Total(WEEKS) == 12);
-assert(XDuration(WEEKS, 12).Total(DAYS) == 84);
+X_ASSERT(XDuration(WEEKS, 12).Total(WEEKS) == 12);
+X_ASSERT(XDuration(WEEKS, 12).Total(DAYS) == 84);
 
-assert(XDuration(DAYS, 13).Total(WEEKS) == 1);
-assert(XDuration(DAYS, 13).Total(DAYS) == 13);
+X_ASSERT(XDuration(DAYS, 13).Total(WEEKS) == 1);
+X_ASSERT(XDuration(DAYS, 13).Total(DAYS) == 13);
 
-assert(XDuration(HOURS, 49).Total(DAYS) == 2);
-assert(XDuration(HOURS, 49).Total(HOURS) == 49);
+X_ASSERT(XDuration(HOURS, 49).Total(DAYS) == 2);
+X_ASSERT(XDuration(HOURS, 49).Total(HOURS) == 49);
 
-assert(XDuration(HOURS, 25).Total(HOURS) == 25);
-assert(XDuration(HOURS, 25).Total(SECONDS) == 90000);
+X_ASSERT(XDuration(HOURS, 25).Total(HOURS) == 25);
+X_ASSERT(XDuration(HOURS, 25).Total(SECONDS) == 90000);
 
-assert(XDuration(MSECS, 1002).Total(SECONDS) == 1);
-assert(XDuration(MSECS, 1002).Total(MSECS) == 1002);
+X_ASSERT(XDuration(MSECS, 1002).Total(SECONDS) == 1);
+X_ASSERT(XDuration(MSECS, 1002).Total(MSECS) == 1002);
 
-assert(XDuration(NSECS, 2007).Total(HNSECS) == 20);
-assert(XDuration(NSECS, 2007).Total(NSECS) == 2000);
+X_ASSERT(XDuration(NSECS, 2007).Total(HNSECS) == 20);
+X_ASSERT(XDuration(NSECS, 2007).Total(NSECS) == 2000);
 \endcode
       */
     X_API int64_t Total(TimeUnits units) const { return convert(HNSECS, units, _hnsecs); }
@@ -557,16 +557,16 @@ Params:
 
 \code
 //Examples
-assert(convert(WEEKS, DAYS, 1) == 7);
-assert(convert(HOURS, SECONDS, 1) == 3600);
-assert(convert(SECONDS, DAYS, 1) == 0);
-assert(convert(SECONDS, DAYS, 86_400) == 1);
+X_ASSERT(convert(WEEKS, DAYS, 1) == 7);
+X_ASSERT(convert(HOURS, SECONDS, 1) == 3600);
+X_ASSERT(convert(SECONDS, DAYS, 1) == 0);
+X_ASSERT(convert(SECONDS, DAYS, 86_400) == 1);
 
-assert(convert(NSECS, NSECS, 1) == 1);
-assert(convert(NSECS, HNSECS, 1) == 0);
-assert(convert(HNSECS, NSECS, 1) == 100);
-assert(convert(NSECS, SECONDS, 1) == 0);
-assert(convert(SECONDS, NSECS, 1) == 1_000_000_000);
+X_ASSERT(convert(NSECS, NSECS, 1) == 1);
+X_ASSERT(convert(NSECS, HNSECS, 1) == 0);
+X_ASSERT(convert(HNSECS, NSECS, 1) == 100);
+X_ASSERT(convert(NSECS, SECONDS, 1) == 0);
+X_ASSERT(convert(SECONDS, NSECS, 1) == 1_000_000_000);
 \endcode
 */
 X_API int64_t convert(TimeUnits from, TimeUnits to, int64_t value)

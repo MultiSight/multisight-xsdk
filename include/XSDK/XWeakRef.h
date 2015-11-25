@@ -12,7 +12,7 @@
 #ifndef _XWeakRef_h_
 #define _XWeakRef_h_
 
-#include <cassert>
+#include "XSDK/Assert.h"
 #include "XSDK/Types.h"
 #include "XSDK/XRef.h"
 #include "XSDK/XException.h"
@@ -70,13 +70,13 @@ public:
 
     Tptr& operator*() const
     {
-        assert(IsValid());
+        X_ASSERT(IsValid());
         return *GetTargetPtr();
     }
 
     Tptr* operator->() const
     {
-        assert(IsValid());
+        X_ASSERT(IsValid());
         return GetTargetPtr();
     }
 

@@ -12,43 +12,22 @@
 #ifndef _XSDK_ASSERT_H_
 #define _XSDK_ASSERT_H_
 
-//==============================================================================
-// Defines the runtime macros X_ASSERT and X_VERIFY.
-//==============================================================================
-#ifndef IS_KERNEL
-    #include <assert.h>
+#include <assert.h>
 
+#define X_ASSERT(exp) \
+X_MACRO_BEGIN \
+    if( !(exp) )  \
+    { \
+        X_LOG_CRITICAL("X_ASSERT(" #exp ")"); \
+        assert(exp); \
+    } \
+X_MACRO_END
 
-    //=========================================================================
-    /// @brief Halts execution in debug builds if the expression evaluates to
-    ///        false.
-    ///
-    /// Example usage:
-    ///
-    /// @code
-    /// void MyMethod(int* value)
-    /// {
-    ///     X_ASSERT(value != NULL);
-    ///     ...
-    /// }
-    /// @endcode
-    //=========================================================================
-    #define X_ASSERT_NO_LOG   assert
-
-    //===========================================================================
-    /// @brief X_VERIFY acts similar to X_ASSERT except that the expression to
-    ///        verify remains in the code in release builds.
-    //===========================================================================
-    #ifdef IS_DEBUG
-        #define X_VERIFY      X_ASSERT_NO_LOG
-    #else
-        #define X_VERIFY(exp) (exp)   // Release
-    #endif
+#ifdef IS_DEBUG
+    #define X_VERIFY X_ASSERT
 #else
-    // Kernel code
-    #define X_ASSERT_NO_LOG(exp)
-    #define X_VERIFY(exp) (exp)
-#endif // IS_KERNEL
+    #define X_VERIFY(exp) (exp) // Release
+#endif
 
-#endif // _XSDK_ASSERT_H_
+#endif
 

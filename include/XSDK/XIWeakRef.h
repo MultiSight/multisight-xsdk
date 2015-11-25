@@ -15,11 +15,11 @@
 //==============================================================================
 // Include files
 //==============================================================================
-#include <assert.h>
 #include <cstdlib>
 #include "XSDK/Types.h"
 #include "XSDK/IXWeakReference.h"
 #include "XSDK/XIRef.h"
+#include "XSDK/Assert.h"
 
 //=============================================================================
 /// The XIWeakRef class is used to hold a "weak" reference to a separate
@@ -243,7 +243,7 @@ public:
     TpPtr& operator*()
     {
         // The object was never assigned a valid pointer.
-        assert(_pProxy.IsValid());
+        X_ASSERT(_pProxy.IsValid());
 
         // Report a reference to the object pointed to by our proxy.
         return (*(GetTargetPtr()));
@@ -261,7 +261,7 @@ public:
     TpPtr* operator->()
     {
         // The object was never assigned a valid pointer.
-        assert(_pProxy.IsValid());
+        X_ASSERT(_pProxy.IsValid());
 
         // Use the proxy to return the object's pointer.
         return GetTargetPtr();
@@ -279,7 +279,7 @@ public:
     const TpPtr* operator->() const
     {
         // The object was never assigned a valid pointer.
-        assert(_pProxy.IsValid());
+        X_ASSERT(_pProxy.IsValid());
 
         // Use the proxy to return the object's pointer.
         return GetTargetPtr();

@@ -107,16 +107,4 @@ X_MACRO_BEGIN \
     throw _exception; \
 X_MACRO_END
 
-/// A version of assert that logs when the assertion fails.
-#ifndef NDEBUG
-#define X_ASSERT(x) \
-X_MACRO_BEGIN \
-    const bool rx = x; \
-    X_LOG_ASSERT(rx); \
-    assert(rx); \
-X_MACRO_END
-#else
-#define X_ASSERT(x)
-#endif
-
 #endif

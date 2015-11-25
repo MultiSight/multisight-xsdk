@@ -12,11 +12,11 @@
 #ifndef _XRef_h_
 #define _XRef_h_
 
-#include <cassert>
 #include <typeinfo>
 #include "XSDK/XGuard.h"
 #include "XSDK/XBaseObject.h"
 #include "XSDK/XObjCount.h"
+#include "XSDK/Assert.h"
 
 template<class Tptr>
 class XWeakRef;
@@ -77,13 +77,13 @@ public:
 
     Tptr& operator*() const
     {
-        assert(_ptr && _counter);
+        X_ASSERT(_ptr && _counter);
         return *_ptr;
     }
 
     Tptr* operator->() const
     {
-        assert(_ptr && _counter);
+        X_ASSERT(_ptr && _counter);
         return _ptr;
     }
 

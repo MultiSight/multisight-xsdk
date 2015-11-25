@@ -83,8 +83,8 @@ void XUuidClear(IN X_UUID* pUuid)
 //==============================================================================
 void XUuidCopy(IN const X_UUID* pSrc, OUT X_UUID* pDest)
 {
-    X_ASSERT_NO_LOG(pSrc  != NULL);
-    X_ASSERT_NO_LOG(pDest != NULL);
+    X_ASSERT(pSrc  != NULL);
+    X_ASSERT(pDest != NULL);
     pDest->words.w1 = pSrc->words.w1;
     pDest->words.w2 = pSrc->words.w2;
     pDest->words.w3 = pSrc->words.w3;
@@ -96,8 +96,8 @@ void XUuidCopy(IN const X_UUID* pSrc, OUT X_UUID* pDest)
 //==============================================================================
 bool XUuidIsEqual(IN const X_UUID* pUuid1, IN const X_UUID* pUuid2)
 {
-    X_ASSERT_NO_LOG(pUuid1 != NULL);
-    X_ASSERT_NO_LOG(pUuid2 != NULL);
+    X_ASSERT(pUuid1 != NULL);
+    X_ASSERT(pUuid2 != NULL);
     return (((pUuid1->words.w1 == pUuid2->words.w1)
         && (pUuid1->words.w2 == pUuid2->words.w2)
         && (pUuid1->words.w3 == pUuid2->words.w3)
@@ -125,7 +125,7 @@ bool XUuidIsStringValid(IN const char* pStr)
     size_t ii = 0;
     size_t length = 0;
 
-    X_ASSERT_NO_LOG(pStr != NULL);
+    X_ASSERT(pStr != NULL);
 
     // Make sure the string length is correct
     length = strlen(pStr);
@@ -165,8 +165,8 @@ bool XUuidFromString(IN const char* pStr, OUT X_UUID* pUuid)
 {
     uint8_t* pUuid8 = pUuid->uc;
 
-    X_ASSERT_NO_LOG(pStr  != NULL);
-    X_ASSERT_NO_LOG(pUuid != NULL);
+    X_ASSERT(pStr  != NULL);
+    X_ASSERT(pUuid != NULL);
 
     // Set the UUID to an empty value
     XUuidClear(pUuid);
@@ -244,8 +244,8 @@ bool XUuidToString(IN const X_UUID* pUuid, OUT char* pStr, IN size_t len)
 {
     const char* pUuidChar = (const char*) pUuid;
 
-    X_ASSERT_NO_LOG(pUuid != NULL);
-    X_ASSERT_NO_LOG(pStr  != NULL);
+    X_ASSERT(pUuid != NULL);
+    X_ASSERT(pStr  != NULL);
 
     // Verify that the buffer is large enough to hold the final string.
     if (len >= 0 && len < (X_UUID_STRING_LENGTH + 1))
@@ -325,7 +325,7 @@ uint8_t CharToHex(const char c)
         return ((c - 'A') + 10);
     else if ((c >= 'a') && (c <= 'f'))
         return ((c - 'a') + 10);
-    X_ASSERT_NO_LOG(false);
+    X_ASSERT(false);
     return 0;
 }
 

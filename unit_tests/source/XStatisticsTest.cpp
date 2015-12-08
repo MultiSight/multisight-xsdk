@@ -86,37 +86,3 @@ void XStatisticsTest::TestMaxSamples()
     UT_ASSERT_NO_THROW( count = avg->GetNumSamples() );
     UT_ASSERT( count == MAX_SAMPLES + 1 );
 }
-
-void XStatisticsTest::TestSampleTimeout()
-{
-    // Add samples, wait half the expiration time, add more samples,
-    // wait a little over half the expiration time, make sure half
-    // the sample have been pruned.
-    XRef<XStatistics<Average,double> > avg = new XStatistics<Average,double>(g_testLen*10, XDuration(XSDK::SECONDS, MAX_DURATION_SEC));
-    UT_ASSERT( avg.IsValid() == true );
-    for (size_t ii=0; ii<g_testLen; ++ii)
-        avg->AddSample(g_test[ii]);
-
-    x_sleep(MAX_DURATION_SEC / 2);
-
-    for (size_t ii=0; ii<g_testLen; ++ii)
-        avg->AddSample(g_test[ii]);
-
-    x_sleep( (MAX_DURATION_SEC / 2) + (MAX_DURATION_SEC / 4) );
-
-    double result = 0.0;
-    UT_ASSERT_NO_THROW( avg->GetResult(result) );
-
-    int count = -1;
-    UT_ASSERT_NO_THROW( count = avg->GetNumSamples() );
-    UT_ASSERT( count == (int)g_testLen );
-
-    // "Hand-calculate" the average
-    double answer = 0.0;
-    for (size_t ii=0; ii<g_testLen; ++ii)
-        answer += g_test[ii];
-    answer /= g_testLen;
-
-    UT_ASSERT( answer == result );
-}
-

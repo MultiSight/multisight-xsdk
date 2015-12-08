@@ -40,7 +40,7 @@ public:
                                      X_THROW(("Something bad happened.")),
                                      XSDK::XException);
         UT_ASSERT_THROWS_MESSAGE("expected exception not thrown",
-                                     X_THROW_CRITICAL(("Something _really_ bad happened.")),
+                                     X_THROW(("Something _really_ bad happened.")),
                                      XSDK::XException);
 
         //Test without macros.
@@ -128,7 +128,7 @@ void XLoggerTest::TestLogger()
                                          X_THROW(("Something bad happened.")),
                                          XSDK::XException);
             UT_ASSERT_THROWS_MESSAGE("expected exception not thrown",
-                                         X_THROW_CRITICAL(("Something _really_ bad happened.")),
+                                         X_THROW(("Something _really_ bad happened.")),
                                          XSDK::XException);
 
             //Test without macros.

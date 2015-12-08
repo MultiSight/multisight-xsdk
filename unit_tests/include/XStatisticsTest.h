@@ -11,7 +11,6 @@ public:
         TEST(XStatisticsTest::TestAverage);
         TEST(XStatisticsTest::TestMedian);
         TEST(XStatisticsTest::TestMaxSamples);
-        TEST(XStatisticsTest::TestSampleTimeout);
     TEST_SUITE_END();
 
     virtual ~XStatisticsTest() throw()
@@ -25,7 +24,6 @@ protected:
     void TestAverage();
     void TestMedian();
     void TestMaxSamples();
-    void TestSampleTimeout();
 };
 
 #endif

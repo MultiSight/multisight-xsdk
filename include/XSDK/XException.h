@@ -107,4 +107,15 @@ X_MACRO_BEGIN \
     throw _exception; \
 X_MACRO_END
 
+#define X_LOG_XSDK_EXCEPTION(E) \
+X_MACRO_BEGIN \
+        X_LOG_ERROR("XSDK Exception: %s",ex.what()); \
+        XLog::LogBacktrace(E.GetStack()); \
+X_MACRO_END
+
+#define X_LOG_STD_EXCEPTION(E) \
+X_MACRO_BEGIN \
+        X_LOG_ERROR("STD Exception: %s",ex.what()); \
+X_MACRO_END
+
 #endif

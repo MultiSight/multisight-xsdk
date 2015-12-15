@@ -109,13 +109,13 @@ X_MACRO_END
 
 #define X_LOG_XSDK_EXCEPTION(E) \
 X_MACRO_BEGIN \
-        X_LOG_ERROR("XSDK Exception: %s",ex.what()); \
+        X_LOG_ERROR("XSDK Exception: %s",E.what()); \
         XLog::LogBacktrace(E.GetStack()); \
 X_MACRO_END
 
 #define X_LOG_STD_EXCEPTION(E) \
 X_MACRO_BEGIN \
-        X_LOG_ERROR("STD Exception: %s",ex.what()); \
+        X_LOG_ERROR("STD Exception: %s",E.what()); \
 X_MACRO_END
 
 #endif

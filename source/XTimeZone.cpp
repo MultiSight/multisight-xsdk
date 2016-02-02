@@ -44,22 +44,18 @@ XDuration XTimeZone::UTCOffsetAt(int64_t ticks) const
 
 XIRef<XTimeZone> XLocalTime::Instance()
 {
+    XGuard lock(_cInstanceLock);
+
     static XIRef<XTimeZone> instance = 0;
 
     if(!_cInitialized)
     {
-        XGuard lock(_cInstanceLock);
-
-        if(instance.IsEmpty())
-        {
-            instance = new XLocalTime;
+        instance = new XLocalTime;
 #ifndef WIN32
-            tzset();
+        tzset();
 #endif
-            _cInitialized = true;
-        }
+        _cInitialized = true;
     }
-
     return instance;
 }
 

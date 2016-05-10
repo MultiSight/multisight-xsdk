@@ -627,7 +627,7 @@ bool XLog::_Write(const std::string& module, const LOG_LEVEL level, const std::s
     if(msg.size() <= X_LOG_CHUNK_SIZE)
     {
         stringstream msgStream;
-        msgStream << prefix << " [" << module << "] " << msg;
+        msgStream << prefix << msg;
         syslog(priority, msgStream.str().c_str());
     }
     // Write chunks to syslog to avoid message length errors
@@ -646,7 +646,7 @@ bool XLog::_Write(const std::string& module, const LOG_LEVEL level, const std::s
         {
             size_t endpos = pos + X_LOG_CHUNK_SIZE;
             stringstream msgChunk;
-            msgChunk << prefix << "[" << module << "]" << "(" << i << "/" << chunkCount << ") ";
+            msgChunk << prefix << "(" << i << "/" << chunkCount << ") ";
 
             if(endpos < msgSize)
                 msgChunk << msg.substr(pos, X_LOG_CHUNK_SIZE);
@@ -660,9 +660,6 @@ bool XLog::_Write(const std::string& module, const LOG_LEVEL level, const std::s
 #elif defined(IS_WINDOWS)
     XString fullMessage = " ";
     fullMessage.append(prefix);
-    fullMessage.append(" [");
-    fullMessage.append(module);
-    fullMessage.append("] ");
     fullMessage.append(msg);
     static const wchar_t NEW_LINE[] = L"\n";
     OutputDebugStringW(fullMessage.get_wide_string().data());
@@ -686,7 +683,7 @@ bool XLog::_Write(const std::string& module, const LOG_LEVEL level, const std::s
 //------------------------------------------------------------------------------
 
 #ifndef NDEBUG
-uint32_t XLog::_cCurrLogFlags = kLogFileLine | kLogThreadID | kLogTimestamp;
+uint32_t XLog::_cCurrLogFlags = 0;
 LOG_LEVEL XLog::_cCurrLogLevel = LOGLEVEL_DEBUG;
 #else
 uint32_t XLog::_cCurrLogFlags = 0;

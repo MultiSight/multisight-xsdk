@@ -21,12 +21,8 @@
 using namespace std;
 using namespace XSDK;
 
-bool XUTC::_cInitialized = false;
 XMutex XUTC::_cInstanceLock;
-
-bool XLocalTime::_cInitialized = false;
 XMutex XLocalTime::_cInstanceLock;
-
 
 //For some reason, I can't get isdigit to work directly.
 static bool verifyDigit(char c)
@@ -46,16 +42,16 @@ XIRef<XTimeZone> XLocalTime::Instance()
 {
     XGuard lock(_cInstanceLock);
 
-    static XIRef<XTimeZone> instance = 0;
+    static XIRef<XTimeZone> instance;
 
-    if(!_cInitialized)
+    if( instance.IsEmpty() )
     {
         instance = new XLocalTime;
 #ifndef WIN32
         tzset();
 #endif
-        _cInitialized = true;
     }
+
     return instance;
 }
 
@@ -219,18 +215,12 @@ XIRef<XDomParserNode> XLocalTime::ToXML() const
 
 XIRef<XTimeZone> XUTC::Instance()
 {
-    static XIRef<XTimeZone> instance = 0;
+    XGuard lock(_cInstanceLock);
 
-    if(!_cInitialized)
-    {
-        XGuard lock(_cInstanceLock);
+    static XIRef<XTimeZone> instance;
 
-        if(instance.IsEmpty())
-        {
-            instance = new XUTC;
-            _cInitialized = true;
-        }
-    }
+    if( instance.IsEmpty() )
+        instance = new XUTC;
 
     return instance;
 }

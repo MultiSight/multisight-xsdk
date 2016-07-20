@@ -54,6 +54,8 @@ public:
     /// Default constructor, used when you have an XTime member of an object, or for testing.
     X_API XTime() : _ticks(0), _tz(XLocalTime::Instance()) {}
 
+    X_API XTime( const XTime& obj ) : _ticks(obj._ticks), _tz(obj._tz) {}
+
     /**
         \param ticks The number of hecto-nanosecond (100 ns) for midnight, January 1st, 1 A.D. in UTC.
         \param tz The time zone that will be used for this XTime.
@@ -109,6 +111,12 @@ public:
           _tz(tz)
     {}
 
+    X_API XTime& operator = ( const XTime& obj )
+    {
+        _ticks = obj._ticks;
+        _tz = obj._tz;
+        return *this;
+    }
 
     /**
         \brief Factory method for constructing on XTime when you have unix time in milliseconds.

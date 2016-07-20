@@ -169,7 +169,6 @@ private:
 
     X_API virtual XIRef<XDomParserNode> ToXML() const;
 
-    static bool    _cInitialized;
     static XMutex _cInstanceLock;
 
     XUTC() {}
@@ -216,7 +215,6 @@ private:
                                                   XTimeTuple localTime);
 #endif
 
-    static bool   _cInitialized;
     static XMutex _cInstanceLock;
 
     XLocalTime() {}

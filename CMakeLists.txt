@@ -47,6 +47,7 @@ set(SOURCES include/XSDK/Assert.h
             include/XSDK/XMonoClock.h
             include/XSDK/XMutex.h
             include/XSDK/XNullable.h
+            include/XSDK/XOption.h
             include/XSDK/XObjCount.h
             include/XSDK/XObjectProxy.h
             include/XSDK/XPath.h
@@ -110,6 +111,7 @@ set(SOURCES include/XSDK/Assert.h
             source/XMonoClock.cpp
             source/XObjCount.cpp
             source/XObjectProxy.cpp
+            source/XOption.cpp
             source/XPath.cpp
             source/XSocketAddress.cpp
             source/XSocket.cpp

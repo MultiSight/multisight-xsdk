@@ -167,14 +167,8 @@ void XLoggerTest::TestDefaults()
         UT_ASSERT(XLog::LogEnabled());
 
 #ifndef NDEBUG
-        UT_ASSERT(XLog::GetLogFlags() & kLogFileLine);
-        UT_ASSERT(XLog::GetLogFlags() & kLogThreadID);
-        UT_ASSERT(XLog::GetLogFlags() & kLogTimestamp);
         UT_ASSERT(XLog::GetLogLevel() == LOGLEVEL_DEBUG);
 #else
-        UT_ASSERT(!(XLog::GetLogFlags() & kLogFileLine));
-        UT_ASSERT(!(XLog::GetLogFlags() & kLogThreadID));
-        UT_ASSERT(!(XLog::GetLogFlags() & kLogTimestamp));
         UT_ASSERT(XLog::GetLogLevel() == LOGLEVEL_WARNING);
 #endif
 

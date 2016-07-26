@@ -271,7 +271,7 @@ void XSocketTest::TestDualProtocolServer()
             UT_ASSERT( val == 42 );
 
             // IPv6
-            UT_ASSERT_THROWS( clientSok.Connect( "::1", 5242 ), XSocketException );
+            UT_ASSERT_THROWS( clientSok.Connect( "::1", 5242 ), XConnectException );
 
             Join();
         }
@@ -294,7 +294,7 @@ void XSocketTest::TestDualProtocolServer()
             UT_ASSERT( val == 42 );
 
             // IPv6
-            UT_ASSERT_THROWS( clientSok.Connect( "127.0.0.1", 5242 ), XSocketException );
+            UT_ASSERT_THROWS( clientSok.Connect( "127.0.0.1", 5242 ), XConnectException );
 
             Join();
         }

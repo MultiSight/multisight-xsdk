@@ -682,13 +682,8 @@ bool XLog::_Write(const std::string& module, const LOG_LEVEL level, const std::s
 // Static Initialization
 //------------------------------------------------------------------------------
 
-#ifndef NDEBUG
 uint32_t XLog::_cCurrLogFlags = 0;
 LOG_LEVEL XLog::_cCurrLogLevel = LOGLEVEL_DEBUG;
-#else
-uint32_t XLog::_cCurrLogFlags = 0;
-LOG_LEVEL XLog::_cCurrLogLevel = LOGLEVEL_WARNING;
-#endif
 
 bool XLog::_cLogEnabled = true;
 XMutex XLog::_cMutex;

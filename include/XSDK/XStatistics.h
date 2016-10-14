@@ -80,8 +80,8 @@ public:
         struct _Sample<SampleType> s = { sample };
         if( _maxSamples > 0 && (_currentSamples + 1) > _maxSamples )
         {
-            _samples.erase( _samples.begin() );
-            _samples.push_back( s );
+            std::rotate( _samples.begin(), _samples.begin()+1, _samples.end() );
+            _samples[_currentSamples-1] = s;
         }
         else
         {

@@ -220,3 +220,24 @@ void XLoggerTest::TestPercentString()
 {
     UT_ASSERT_NO_THROW(X_LOG_INFO("This has some problems %s", "This is my %d argument"));
 }
+
+void XLoggerTest::TestXJSON()
+{
+    try
+    {
+        UT_ASSERT(XJSONStr("a", 1) == "{\"a\":1}");
+        UT_ASSERT(XJSONStr("a", 1, "b", "2") == "{\"a\":1,\"b\":\"2\"}");
+
+        X_JSON_LOG_CRITICAL("evt", "CriticalEventLabel");
+        X_JSON_LOG_ERROR("evt", "ErrorEventLabel");
+        X_JSON_LOG_WARNING("evt", "WarningEventLabel");
+        X_JSON_LOG_NOTICE("evt", "NoticeEventLabel");
+        X_JSON_LOG_INFO("evt", "InfoEventLabel");
+        X_JSON_LOG_TRACE("evt", "TraceEventLabel");
+        X_JSON_LOG_DEBUG("evt", "DebugEventLabel");
+    }
+    catch(XSDK::XException&)
+    {
+        UT_ASSERT(false && "Test threw!");
+    }
+}

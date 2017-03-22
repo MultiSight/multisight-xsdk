@@ -15,6 +15,7 @@ public:
         TEST(XLoggerTest::TestBacktrace);
         TEST(XLoggerTest::TestPercentString);
         TEST(XLoggerTest::TestThrottledLogging);
+        TEST(XLoggerTest::TestXJSON);
     TEST_SUITE_END();
 
     virtual ~XLoggerTest() throw()
@@ -30,6 +31,7 @@ protected:
     void TestLogLevelToString();
     void TestBacktrace();
     void TestPercentString();
+    void TestXJSON();
 };
 
 #endif

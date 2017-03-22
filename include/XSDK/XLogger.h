@@ -16,6 +16,8 @@
 #include <memory>
 #include <cstdarg>
 #include <vector>
+#include <sstream>
+#include <type_traits>
 
 //We're using std::string here instead of XSDK::XString because XSDK::XString
 //includes this file, so we'd have a circular dependency if we tried to use
@@ -88,6 +90,71 @@ namespace XSDK
 #define X_LOG_INFO_THROTTLED(interval_ms, key, format, ...) X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_INFO)) { if(XLog::ThrottleLogMessageCheck(interval_ms, key)) { if(XLog::GetThrottleLogMessageCount(key) > 0) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_INFO, __LINE__, __FILE__, "Key[%s] Following message occured [%u] times, for interval[%dms]", key, XLog::GetThrottleLogMessageCount(key), interval_ms); XLog::ClearThrottleLogMessageCount(key); XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_INFO, __LINE__, __FILE__, format, ##__VA_ARGS__); } } X_MACRO_END
 #define X_LOG_TRACE_THROTTLED(interval_ms, key, format, ...) X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_TRACE)) { if(XLog::ThrottleLogMessageCheck(interval_ms, key)) { if(XLog::GetThrottleLogMessageCount(key) > 0) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_TRACE, __LINE__, __FILE__, "Key[%s] Following message occured [%u] times, for interval[%dms]", key, XLog::GetThrottleLogMessageCount(key), interval_ms); XLog::ClearThrottleLogMessageCount(key); XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_TRACE, __LINE__, __FILE__, format, ##__VA_ARGS__); } } X_MACRO_END
 #define X_LOG_DEBUG_THROTTLED(interval_ms, key, format, ...) X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_DEBUG)) { if(XLog::ThrottleLogMessageCheck(interval_ms, key)) { if(XLog::GetThrottleLogMessageCount(key) > 0) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_DEBUG, __LINE__, __FILE__, "Key[%s] Following message occured [%u] times, for interval[%dms]", key, XLog::GetThrottleLogMessageCount(key), interval_ms); XLog::ClearThrottleLogMessageCount(key); XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_DEBUG, __LINE__, __FILE__, format, ##__VA_ARGS__); } } X_MACRO_END
+
+    /* The following three functions allow calling this:
+     *
+     *     XJSONStr("a", 1, "b", 2);
+     *
+     * and getting back a std::string of the form:
+     *
+     *     {"a":1,"b":2}
+     *
+     * ...for use in simple sturctured logging.  Passing of
+     * and even number of argument is ensured with a static_assert.
+     */
+
+    // XJSONStr variadic template base case
+    template <typename T>
+    void XJSONStrRecurse(std::stringstream& ss, T t)
+    {
+        if(std::is_integral<T>::value || std::is_floating_point<T>::value)
+            ss << t;
+        else
+            ss << "\"" << t << "\"";
+    }
+
+    // XJSONStr variadic template recursive case
+    template<typename T, typename... Args>
+    void XJSONStrRecurse(std::stringstream& ss, T t, Args... args)
+    {
+        XJSONStrRecurse(ss, t);
+
+        const int countOfArgs = sizeof...(Args);
+
+        if(countOfArgs % 2 == 0)
+            ss << ",";
+        else
+            ss << ":";
+
+        XJSONStrRecurse(ss, args...);
+    }
+
+    // XJSONStr function intended to be called by user
+    template<typename... Args>
+    std::string XJSONStr(Args... args)
+    {
+        const int countOfArgs = sizeof...(Args);
+
+        static_assert(countOfArgs % 2 == 0, "XJSONStr must take even number of arguments.");
+
+        std::stringstream ss;
+
+        ss << "{";
+
+        XJSONStrRecurse(ss, args...);
+
+        ss << "}";
+
+        return ss.str();
+    }
+
+    #define X_JSON_LOG_CRITICAL(...) X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_CRITICAL)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_CRITICAL, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
+    #define X_JSON_LOG_ERROR(...)    X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_ERROR)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_ERROR, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
+    #define X_JSON_LOG_WARNING(...)  X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_WARNING)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_WARNING, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
+    #define X_JSON_LOG_NOTICE(...)   X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_NOTICE)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_NOTICE, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
+    #define X_JSON_LOG_INFO(...)     X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_INFO)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_INFO, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
+    #define X_JSON_LOG_TRACE(...)    X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_TRACE)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_TRACE, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
+    #define X_JSON_LOG_DEBUG(...)    X_MACRO_BEGIN if(XSDK::XLog::_ShouldLog(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_DEBUG)) XSDK::XLog::_NoCheckWrite(X_LGR_DFLT_MOD_ID, XSDK::LOGLEVEL_DEBUG, __LINE__, __FILE__, XSDK::XJSONStr(__VA_ARGS__).c_str()); X_MACRO_END
 
 class XLog
 {

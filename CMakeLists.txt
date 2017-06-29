@@ -82,6 +82,7 @@ set(SOURCES include/XSDK/Assert.h
             include/XSDK/OS/StackTrace.h
             include/XSDK/OS/STL.h
             include/XSDK/XActor.h
+            include/XSDK/XFile.h
             source/XMD5.cpp
             source/LargeFiles.cpp
             source/OS.cpp

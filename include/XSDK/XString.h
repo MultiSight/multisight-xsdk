@@ -227,6 +227,8 @@ public:
     static X_API XString FromUInt64(uint64_t val, int base = 10);
     static X_API XString FromDouble(double val) {return Format("%lf", val);}
 
+    X_API std::string ToStdString() const { return _storage; }
+
     ///
     X_API int ToInt(bool truncate = false) const;
     ///

@@ -54,7 +54,8 @@ set(SOURCES source/framework.cpp
             source/XUuidTest.cpp
             source/XVariantTest.cpp
             source/XWeakRefTest.cpp
-            source/XFileTest.cpp)
+            source/XFileTest.cpp
+            source/XSHA256Test.cpp)
 
 
 set(COMMON_LIBS XSDK)

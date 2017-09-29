@@ -83,6 +83,7 @@ set(SOURCES include/XSDK/Assert.h
             include/XSDK/OS/STL.h
             include/XSDK/XActor.h
             include/XSDK/XFile.h
+            include/XSDK/XSHA256.h
             source/XMD5.cpp
             source/LargeFiles.cpp
             source/OS.cpp
@@ -132,7 +133,8 @@ set(SOURCES include/XSDK/Assert.h
             source/XUDPSender.cpp
             source/XUuid.cpp
             source/XVariant.cpp
-            source/XActor.cpp)
+            source/XActor.cpp
+            source/XSHA256.cpp)
 
 if(CMAKE_SYSTEM MATCHES "Linux-")
 set(SOURCES ${SOURCES} source/POSIX/Sprintf.cpp
